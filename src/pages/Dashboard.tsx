@@ -67,7 +67,9 @@ export default function Dashboard() {
   const fetchProducts = async () => {
     try {
       const res = await fetch('/api/products');
-      const data = await res.json();
+      if (!res.ok) throw new Error('Server error');
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setProducts(data);
       setLoading(false);
     } catch (error) {
@@ -79,7 +81,9 @@ export default function Dashboard() {
   const fetchUsers = async () => {
     try {
       const res = await fetch('/api/users');
-      const data = await res.json();
+      if (!res.ok) throw new Error('Server error');
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setUsers(data);
     } catch (error) {
       console.error('Failed to fetch users', error);
@@ -89,7 +93,9 @@ export default function Dashboard() {
   const fetchOrders = async () => {
     try {
       const res = await fetch('/api/orders');
-      const data = await res.json();
+      if (!res.ok) throw new Error('Server error');
+      const text = await res.text();
+      const data = text ? JSON.parse(text) : [];
       setOrders(data);
     } catch (error) {
       console.error('Failed to fetch orders', error);

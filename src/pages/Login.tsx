@@ -27,7 +27,14 @@ export default function Login() {
         body: JSON.stringify({ username, password }),
       });
       
-      const data = await res.json();
+      let data;
+      try {
+        const text = await res.text();
+        data = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error("JSON Parse Error:", parseError);
+        throw new Error("Invalid server response");
+      }
 
       if (res.ok && data.success) {
         if (isLogin) {

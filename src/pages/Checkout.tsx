@@ -50,11 +50,19 @@ export default function Checkout() {
         })
       });
 
+      let data;
+      try {
+        const text = await res.text();
+        data = text ? JSON.parse(text) : {};
+      } catch (e) {
+        throw new Error('Invalid server response');
+      }
+
       if (res.ok) {
         clearCart();
         setStep(3);
       } else {
-        alert('حدث خطأ أثناء إتمام الطلب');
+        alert(data.error || 'حدث خطأ أثناء إتمام الطلب');
       }
     } catch (error) {
       console.error('Order error', error);
